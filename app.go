@@ -1,20 +1,25 @@
 package main
 
-import "github.com/Tnze/CoolQ-Golang-SDK/cqp"
+import (
+	"github.com/MscBaiMeow/QQcard2BiliURL/decode"
+	"github.com/Tnze/CoolQ-Golang-SDK/cqp"
+)
 
 //go:generate cqcfg -c .
-// cqp: 名称: GoDemo
+// cqp: 名称: BiliURL
 // cqp: 版本: 1.0.0:0
-// cqp: 作者: Tnze
-// cqp: 简介: 一个超棒的Go语言插件Demo，它会回复你的私聊消息~
+// cqp: 作者: BaiMeow
+// cqp: 简介: 将qq卡片的bilibili小程序分享转为bilibili的URL直接发出来
 func main() { /*此处应当留空*/ }
 
 func init() {
-	cqp.AppID = "me.cqp.tnze.demo" // TODO: 修改为这个插件的ID
-	cqp.PrivateMsg = onPrivateMsg
+	cqp.AppID = "cn.miaoscraft.biliurl" // TODO: 修改为这个插件的ID
+	cqp.GroupMsg = onGroupMsg
 }
 
-func onPrivateMsg(subType, msgID int32, fromQQ int64, msg string, font int32) int32 {
-	cqp.SendPrivateMsg(fromQQ, msg) //复读机
+func onGroupMsg(subType, msgID int32, fromGroup, fromQQ int64, fromAnonymous, msg string, font int32) int32 {
+	if card, err := decode.Bili(msg); err == nil {
+		cqp.SendGroupMsg(fromGroup, card.Content.Detail1.QQdocurl)
+	}
 	return 0
 }
