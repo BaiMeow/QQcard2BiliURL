@@ -57,7 +57,7 @@ func Bili(msg string) (BiliCard, error) {
 	}
 	card.Title = cqUnEscaper.Replace(msg[l:r])
 	if card.Title != "[QQ小程序]哔哩哔哩" {
-		return card, ErrOtherMsg
+		return card, ErrOtherCard
 	}
 	bilijson := cqUnEscaper.Replace(msg[r+9 : len(msg)-1])
 	json.Unmarshal([]byte(bilijson), &(card.Content))
