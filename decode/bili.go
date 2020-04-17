@@ -50,7 +50,7 @@ func Bili(msg string) (BiliCard, error) {
 	l := 15
 	r := 15
 	for r < len(msg)-8 {
-		if msg[r] == []byte(",")[0] {
+		if msg[r] == ',' {
 			break
 		}
 		r++
